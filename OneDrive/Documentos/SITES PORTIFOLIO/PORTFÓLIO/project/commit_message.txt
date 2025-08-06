@@ -1,0 +1,9 @@
+feat: Adjustments and cleanup for portfolio
+
+- Removed styling effect from "Habilidades e Conhecimentos" section.
+- Adjusted profile picture positioning and size.
+- Removed border from profile picture.
+- Moved profile picture to "Olá, Sou" section.
+- Increased background image section height for better visibility.
+- Cleaned up temporary files (temp.tsx, temp.ts, temp.d.ts).
+- Fixed linter errors and warnings in AboutSection.tsx, ContactSection.tsx, and AnimatedSection.tsx.

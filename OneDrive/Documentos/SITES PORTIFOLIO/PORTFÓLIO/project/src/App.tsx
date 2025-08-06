@@ -8,6 +8,7 @@ const ProjectsSection = lazy(() => import('./components/ProjectsSection'));
 const ContactSection = lazy(() => import('./components/ContactSection'));
 
 function App() {
+  // Temporary change to trigger Vercel redeploy
   const { activeSection, scrollToSection } = useScrollToSection();
 
   return (
