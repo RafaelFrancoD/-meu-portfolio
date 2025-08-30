@@ -1,0 +1,103 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.blinking-cursor {
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  from, to { color: transparent; }
+  50% { color: white; }
+}
+
+.h-24 {
+  height: 6rem; /* 96px */
+}
+
+.lg\:h-32 {
+  height: 8rem; /* 128px */
+}
+
+@layer utilities {
+  .text-shadow-purple {
+    text-shadow: 0 0 8px rgba(168, 85, 247, 0.7), 0 0 12px rgba(168, 85, 247, 0.5);
+  }
+
+  .noise-overlay::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJub2lzZSI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuOCIgbnVtT2N0YXZlcz0iNCIgc3RpdGNoVGlsZXM9InN0aXRjaCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNub2lzZSkiLz48L3N2Zz4=');
+    background-repeat: repeat;
+    background-size: auto;
+    opacity: 0.05; /* Adjust opacity for subtlety */
+  }
+}
+
+/* New Text Animation Styles */
+.loader-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: inherit; /* Inherit font size from parent h2 */
+  font-weight: inherit; /* Inherit font weight from parent h2 */
+  color: inherit; /* Inherit color from parent h2 */
+}
+
+.loader-letter {
+  display: inline-block;
+  opacity: 0; /* Estado inicial para a animação */
+  transform: translateY(20px); /* Estado inicial para a animação */
+}
+
+/* A animação só é aplicada quando o pai AnimatedSection está visível */
+.fade-in-item.is-visible .loader-letter {
+  animation: appear-up 1s forwards; /* Aumenta a duração da animação */
+}
+
+@keyframes appear-up {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+
+/* Tilt Effect for Project Cards */
+.tilt-effect {
+    transform: perspective(1000px) rotateX(10deg); /* Levemente inclinado para trás */
+    transition: transform 0.3s ease-in-out;
+}
+
+.tilt-effect:hover {
+    transform: perspective(1000px) rotateX(0deg); /* Volta à posição normal */
+}
+
+/* Fade-in Animation for Contact Items */
+.fade-in-item {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.fade-in-item.is-visible {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
