@@ -1,0 +1,22 @@
+# Usa uma imagem Node.js para executar os comandos
+image: node:20
+
+# Define o trabalho de publicação para o GitLab Pages
+pages:
+  stage: deploy
+  script:
+    # Instala as dependências do projeto
+    - npm install
+    # Compila o projeto para produção
+    - npm run build
+    # Renomeia a pasta de build para 'public', que é o que o GitLab Pages espera.
+    - mv dist public
+  artifacts:
+    paths:
+      # Diz ao GitLab para usar o conteúdo da pasta "public" para o site.
+      - public
+  rules:
+    # Executa este trabalho apenas quando houver uma atualização na branch "main".
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+# Força a re-execução do pipeline para ativar o Pages
