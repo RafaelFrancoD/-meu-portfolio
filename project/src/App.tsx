@@ -45,7 +45,7 @@ function App() {
                   key={link.id}
                   onClick={() => handleLinkClick(link.id)}
                   className={`capitalize transition-colors duration-300 ${
-                    activeSection === link.id && link.id !== 'about'
+                    activeSection === link.id
                       ? 'text-purple-400'
                       : 'text-white hover:text-purple-300'
                   }`}

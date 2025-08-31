@@ -21,15 +21,15 @@ const AboutSection: React.FC = () => {
             </h2>
           </div>
 
-          <div className="flex flex-col lg:flex-row gap-12 items-center">
-            <div className="relative w-[40rem] h-[40rem] overflow-hidden mx-auto lg:mx-0 mb-8 lg:mb-0">
+          <div className="flex flex-col lg:flex-row items-center lg:items-start">
+            <div className="flex-shrink-0 mb-8 lg:mb-0">
               <img
-                src="/foto rafael.jpg"
+                src="/foto-rafael.jpg"
                 alt="Rafael Américo Franco de Azevedo - Foto de Perfil"
-                className="w-full h-full object-contain object-center"
+                className="w-64 h-64 md:w-80 md:h-80 lg:w-[550px] lg:h-[550px] rounded-lg object-contain mx-auto"
               />
             </div>
-            <div className="space-y-6 lg:w-2/3">
+            <div className="space-y-6 text-center lg:text-left">
               <p className="text-gray-300 leading-relaxed text-lg">
                 Estou cursando um curso tecnólogo na área de Análise e Desenvolvimento de Sistemas, movido por uma paixão genuína por tecnologia, criação e aprendizado constante.
               </p>
