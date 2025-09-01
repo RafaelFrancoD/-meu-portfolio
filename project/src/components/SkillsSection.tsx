@@ -77,7 +77,7 @@ const SkillsSection: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {skills.map((skill, index) => (
             <div key={index} className="bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20 hover:border-purple-400/50 transition-all duration-300 hover:transform hover:scale-105 shadow-lg shadow-purple-500/25 h-full">
-              <div className="text-4xl mb-4">{skill.icon}</div>
+              
               <h3 className="text-xl font-bold text-white mb-3">{skill.name}</h3>
               <p className="text-gray-300">{skill.description}</p>
             </div>

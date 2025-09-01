@@ -12,9 +12,9 @@ const AboutSection: React.FC = () => {
       {/* About Section */}
       <section className="py-16 px-4 sm:px-6 bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-12">
+          <div className="text-center mb-12"> {/* Name section - moved back */}
             <p className="text-2xl sm:text-3xl lg:text-4xl text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400 mb-2">Olá, Sou</p>
-            <h2 className="text-3xl sm:text-4xl lg:text-6xl font-bold text-white mb-4 h-24 lg:h-32 flex items-center justify-center">
+            <h2 className="text-3xl sm:text-4xl lg:text-6xl font-bold text-white mb-4 h-24 lg:h-32 flex items-center justify-center"> {/* Reverted h2 classes */}
               <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
                 {fullName}
               </span>
@@ -22,14 +22,14 @@ const AboutSection: React.FC = () => {
           </div>
 
           <div className="flex flex-col lg:flex-row items-center lg:items-start">
-            <div className="flex-shrink-0 mb-8 lg:mb-0">
+            <div className="flex-shrink-0 mb-8 lg:mb-0"> {/* Image container - reverted width/padding */}
               <img
                 src="/foto-rafael.jpg"
                 alt="Rafael Américo Franco de Azevedo - Foto de Perfil"
-                className="w-64 h-64 md:w-80 md:h-80 lg:w-[550px] lg:h-[550px] rounded-lg object-contain mx-auto"
+                className="w-full h-auto max-h-[450px] object-contain object-center mx-auto rounded-none" /* Adjusted for rectangle, changed object-cover to object-contain, reduced height */
               />
             </div>
-            <div className="space-y-6 text-center lg:text-left">
+            <div className="space-y-6 text-center lg:text-left lg:pl-8"> {/* Text container - added lg:pl-8 */}
               <p className="text-gray-300 leading-relaxed text-lg">
                 Estou cursando um curso tecnólogo na área de Análise e Desenvolvimento de Sistemas, movido por uma paixão genuína por tecnologia, criação e aprendizado constante.
               </p>
