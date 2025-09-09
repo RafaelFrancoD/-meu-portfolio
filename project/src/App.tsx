@@ -125,4 +125,5 @@ function App() {
   );
 }
 
+// Forçando novo build para limpar cache - Tentativa Final
 export default App;
