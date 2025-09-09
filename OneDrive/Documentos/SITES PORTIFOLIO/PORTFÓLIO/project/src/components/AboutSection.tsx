@@ -15,7 +15,7 @@ const AboutSection: React.FC = () => {
           <div className="text-center mb-12">
             <div className="relative w-60 h-60 rounded-full overflow-hidden shadow-2xl mx-auto mb-8">
               <img
-                src="/foto rafael.jpg"
+                src="/foto-rafael.jpg"
                 alt="Rafael Américo Franco de Azevedo - Foto de Perfil"
                 className="w-full h-full object-cover object-center"
               />
