@@ -7,7 +7,7 @@ interface Comment {
   timestamp: string;
 }
 
-const CommentsSection: React.FC = () => {
+const TestimonialsSection: React.FC = () => {
   const [comments, setComments] = useState<Comment[]>([]);
   const [name, setName] = useState<string>('');
   const [message, setMessage] = useState<string>('');
@@ -97,4 +97,4 @@ const CommentsSection: React.FC = () => {
   );
 };
 
-export default CommentsSection;
+export default TestimonialsSection;

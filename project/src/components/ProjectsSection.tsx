@@ -3,6 +3,14 @@ import { Github, Monitor } from 'lucide-react';
 
 const projects = [
   {
+    title: 'Gisela',
+    description: `Portifólio Profissional para Analista de Qualidade de Software O Desafio: A cliente, uma especialista em QA, precisava de uma presença online profissional para apresentar a sua experiência, e competências e potenciais. O objetivo era criar uma plataforma moderna, rápida e que transmitisse credibilidade. A Minha Atuação: Atuei como um  desenvolvedor neste projeto de ponta-a-ponta.`,
+    tech: ['React', 'TypeScript', 'Tailwind CSS', 'Vite', 'Gerenciamento de projetos', 'Comunicação com o cliente', 'UI/UX Design', 'Desenvolvimento front-end'],
+    image: 'https://gisela.vercel.app/foto%20gisela.jpg',
+    github: 'https://github.com/RafaelFrancoD/Gisela',
+    liveDemo: 'https://gisela.vercel.app/'
+  },
+  {
     title: 'Cookitos Landing Page',
     description: 'Uma landing page moderna, responsiva e interativa para a marca de biscoitos artesanais "Cookitos". O projeto foi desenvolvido com foco em uma apresentação visual atraente dos produtos e na fácil interação do usuário.',
     tech: ['HTML5', 'CSS3', 'JavaScript'],
@@ -55,11 +63,12 @@ const ProjectsSection: React.FC = () => {
           <p className="text-lg md:text-xl text-gray-300">Alguns dos meus trabalhos recentes</p>
         </div>
 
+        <h3 className="text-2xl font-bold text-white mb-6 text-center">Secção 1: Projetos Web Completos (Ponta-a-Ponta)</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
           {projects.map((project, index) => (
             <div key={index} className="bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20 flex flex-col justify-between hover:border-purple-400/50 transition-all duration-300 hover:transform hover:scale-105 shadow-lg shadow-purple-500/25">
               <div>
-                <img src={project.image} alt={project.title} className="w-full h-48 object-cover rounded-md mb-4" />
+                <img src={project.image} alt={project.title} className="w-full h-48 object-contain object-center rounded-md mb-4" />
                 <h3 className="text-2xl font-bold text-white mb-2">{project.title}</h3>
                 <p className="text-gray-300 mb-4">{project.description}</p>
                 <div className="flex flex-wrap gap-2 mb-4">

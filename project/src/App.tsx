@@ -20,6 +20,7 @@ function App() {
 
   const navLinks = [
     { id: 'about', name: 'Início' },
+    { id: 'about', name: 'Sobre mim' },
     { id: 'skills', name: 'Habilidades' },
     { id: 'projects', name: 'Projetos' },
     { id: 'contact', name: 'Contato' },
@@ -42,7 +43,7 @@ function App() {
             <div className="hidden md:flex space-x-8">
               {navLinks.map((link) => (
                 <button
-                  key={link.id}
+                  key={link.name}
                   onClick={() => handleLinkClick(link.id)}
                   className={`capitalize transition-colors duration-300 ${
                     activeSection === link.id
@@ -75,7 +76,7 @@ function App() {
            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
               {navLinks.map((link) => (
                 <button
-                  key={link.id}
+                  key={link.name}
                   onClick={() => handleLinkClick(link.id)}
                   className="w-full text-left block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-gray-700"
                 >
