@@ -45,12 +45,6 @@ const SkillsSection: React.FC = () => {
       category: 'tools'
     },
     {
-      name: 'Docker Nivel Iniciante',
-      description: 'Containerização de aplicações',
-      icon: '🐳',
-      category: 'tools'
-    },
-    {
       name: 'GitHub Nivel Básico',
       description: 'Controle de versão e colaboração',
       icon: '🐙',
