@@ -3,14 +3,6 @@ import { Github, Monitor } from 'lucide-react';
 
 const projects = [
   {
-    title: 'AstroSun',
-    description: 'AstroSun é um site interativo e educacional, que contém uma história em quadrinhos que visa exemplificar os efeitos do clima espacial na Terra e, consequentemente, despertar a curiosidade científica e o pensamento crítico.',
-    tech: ['HTML', 'CSS', 'JavaScript', 'Vercel'],
-    image: '/Apollos.jpg',
-    github: 'https://github.com/RafaelFrancoD/AstroSun',
-    liveDemo: 'https://astro-sun.vercel.app/'
-  },
-  {
     title: 'Gisela',
     description: `Portifólio Profissional para Analista de Qualidade de Software O Desafio: A cliente, uma especialista em QA, precisava de uma presença online profissional para apresentar a sua experiência, e competências e potenciais. O objetivo era criar uma plataforma moderna, rápida e que transmitisse credibilidade. A Minha Atuação: Atuei como um  desenvolvedor neste projeto de ponta-a-ponta.`,
     tech: ['React', 'TypeScript', 'Tailwind CSS', 'Vite', 'Gerenciamento de projetos', 'Comunicação com o cliente', 'UI/UX Design', 'Desenvolvimento front-end'],
