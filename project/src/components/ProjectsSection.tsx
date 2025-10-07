@@ -6,7 +6,7 @@ const projects = [
     title: 'Apollos',
     description: 'AstroSun é um site interativo e educacional, que contém uma história em quadrinhos que visa exemplificar os efeitos do clima espacial na Terra e, consequentemente, despertar a curiosidade científica e o pensamento crítico.',
     tech: ['HTML', 'CSS', 'JavaScript', 'Vercel'],
-    image: 'Apollos.jpg',
+    image: 'https://images.pexels.com/photos/23769/pexels-photo.jpg',
     github: 'https://github.com/RafaelFrancoD/AstroSun',
     liveDemo: 'https://astro-sun.vercel.app/'
   },
