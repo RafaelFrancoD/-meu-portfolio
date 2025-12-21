@@ -28,27 +28,11 @@ const projects = [
   },
   
   {
-    title: 'Sistema de Usuários',
-    description: 'Sistema completo para gerenciamento de usuários com funcionalidades CRUD',
-    tech: ['Java', 'Spring Boot', 'PostgreSQL'],
-    image: 'https://images.pexels.com/photos/270348/pexels-photo-270348.jpeg?auto=compress&cs=tinysrgb&w=800',
-    github: 'https://github.com/RafaelFrancoD/usuario',
-    liveDemo: null
-  },
-  {
     title: 'Agendador de Tarefas',
     description: 'Aplicação para agendamento e gerenciamento de tarefas.',
     tech: ['Java', 'Spring Boot', 'MongoDB'],
     image: 'https://images.pexels.com/photos/3220556/pexels-photo-3220556.jpeg?auto=compress&cs=tinysrgb&w=800',
     github: 'https://github.com/RafaelFrancoD/agendador-tarefas',
-    liveDemo: null
-  },
-  {
-    title: 'Projeto Escola',
-    description: 'Sistema de gerenciamento escolar com funcionalidades administrativas.',
-    tech: ['Java', 'Spring Boot', 'JPA'],
-    image: 'https://images.pexels.com/photos/159844/cellular-education-classroom-159844.jpeg?auto=compress&cs=tinysrgb&w=800',
-    github: 'https://github.com/RafaelFrancoD/Projeto-Escola',
     liveDemo: null
   },
   {

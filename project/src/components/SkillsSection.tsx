@@ -15,12 +15,6 @@ const SkillsSection: React.FC = () => {
       category: 'backend'
     },
     {
-      name: 'Python Nivel Básico',
-      description: 'Linguagem versátil para desenvolvimento e automação',
-      icon: '🐍',
-      category: 'backend'
-    },
-    {
       name: 'Django',
       description: 'Framework web Python para desenvolvimento rápido',
       icon: '🎯',
@@ -30,12 +24,6 @@ const SkillsSection: React.FC = () => {
       name: 'PostgreSQL Nivel Básico',
       description: 'Sistema de gerenciamento de banco de dados relacional',
       icon: '🐘',
-      category: 'database'
-    },
-    {
-      name: 'MongoDB Nivel Básico',
-      description: 'Banco de dados NoSQL orientado a documentos',
-      icon: '🍃',
       category: 'database'
     },
     {
