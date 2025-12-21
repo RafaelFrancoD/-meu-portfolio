@@ -3,6 +3,14 @@ import { Github, Monitor } from 'lucide-react';
 
 const projects = [
   {
+    title: 'Sistema de Gerenciamento de Férias',
+    description: 'Solução para simplificar a gestão de férias de equipes. Permite solicitar, aprovar e acompanhar os períodos de férias dos colaboradores, otimizar o planejamento e evitar conflitos de agendamento.',
+    tech: ['React', 'TypeScript', 'Vite', 'Recharts', 'jsPDF'],
+    image: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+    github: 'https://github.com/RafaelFrancoD/Sistema-Gerenciamento',
+    liveDemo: 'https://sistema-gerenciamento-beryl.vercel.app/'
+  },
+  {
     title: 'Apollos',
     description: 'AstroSun é um site interativo e educacional, que contém uma história em quadrinhos que visa exemplificar os efeitos do clima espacial na Terra e, consequentemente, despertar a curiosidade científica e o pensamento crítico.',
     tech: ['HTML', 'CSS', 'JavaScript', 'Vercel'],
