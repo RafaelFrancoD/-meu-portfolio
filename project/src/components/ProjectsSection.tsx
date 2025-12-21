@@ -28,14 +28,6 @@ const projects = [
   },
   
   {
-    title: 'Agendador de Tarefas',
-    description: 'Aplicação para agendamento e gerenciamento de tarefas.',
-    tech: ['Java', 'Spring Boot', 'MongoDB'],
-    image: 'https://images.pexels.com/photos/3220556/pexels-photo-3220556.jpeg?auto=compress&cs=tinysrgb&w=800',
-    github: 'https://github.com/RafaelFrancoD/agendador-tarefas',
-    liveDemo: null
-  },
-  {
     title: 'Conta Bancária - DIO',
     description: 'Projeto de simulação de conta bancária desenvolvido durante curso da DIO',
     tech: ['Java', 'POO', 'Collections'],

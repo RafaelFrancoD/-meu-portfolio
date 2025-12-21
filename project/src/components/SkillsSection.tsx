@@ -14,12 +14,7 @@ const SkillsSection: React.FC = () => {
       icon: '🍃',
       category: 'backend'
     },
-    {
-      name: 'Django',
-      description: 'Framework web Python para desenvolvimento rápido',
-      icon: '🎯',
-      category: 'backend'
-    },
+    
     {
       name: 'PostgreSQL Nivel Básico',
       description: 'Sistema de gerenciamento de banco de dados relacional',
