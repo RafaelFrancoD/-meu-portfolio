@@ -46,30 +46,14 @@ const SkillsSection: React.FC = () => {
       icon: '🍃',
       category: 'backend'
     },
-    {
-      name: 'Python Nivel Básico',
-      description: 'Linguagem versátil para desenvolvimento e automação',
-      icon: '🐍',
-      category: 'backend'
-    },
-    {
-      name: 'Django',
-      description: 'Framework web Python para desenvolvimento rápido',
-      icon: '🎯',
-      category: 'backend'
-    },
+    
     {
       name: 'PostgreSQL Nivel Básico',
       description: 'Sistema de gerenciamento de banco de dados relacional',
       icon: '🐘',
       category: 'database'
     },
-    {
-      name: 'MongoDB Nivel Básico',
-      description: 'Banco de dados NoSQL orientado a documentos',
-      icon: '🍃',
-      category: 'database'
-    },
+    
     {
       name: 'Postman',
       description: 'Ferramenta para testes de APIs',
