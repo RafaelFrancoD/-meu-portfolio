@@ -36,7 +36,7 @@ const AboutSection: React.FC = () => {
               <div className="flex flex-col lg:flex-row items-center lg:items-start">
                 <div className="flex-shrink-0 mb-8 lg:mb-0"> {/* Image container - reverted width/padding */}
                   <img
-                    src="/foto-rafael.jpg"
+                    src="/rafael.png"
                     alt="Rafael Américo Franco de Azevedo - Foto de Perfil"
                     className="w-full h-auto max-h-[350px] object-contain object-center mx-auto rounded-none" /* Adjusted for rectangle, changed object-cover to object-contain, reduced height */
                   />
