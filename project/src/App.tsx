@@ -1,5 +1,6 @@
 import React, { lazy, Suspense, useState } from 'react';
 import useScrollToSection from './hooks/useScrollToSection';
+import useSmoothScroll from './hooks/useSmoothScroll';
 import AnimatedSection from './components/common/AnimatedSection';
 import { Menu, X } from 'lucide-react';
 
@@ -12,6 +13,7 @@ function App() {
   // Forçando novo build para limpar cache - Tentativa Final
   const { activeSection, scrollToSection } = useScrollToSection();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  useSmoothScroll();
 
   const handleLinkClick = (section: string) => {
     scrollToSection(section);
@@ -27,14 +29,14 @@ function App() {
   ];
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 noise-overlay overflow-hidden">
+    <div className="relative min-h-screen bg-gradient-to-br from-slate-950 via-neutral-950 to-emerald-950 noise-overlay overflow-x-hidden">
       {/* Navigation */}
-      <nav className="fixed top-0 w-full bg-black/20 backdrop-blur-lg border-b border-white/10 z-50">
+      <nav className="fixed top-0 w-full bg-black/35 backdrop-blur-lg border-b border-emerald-500/15 z-50">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="flex justify-between items-center h-16">
             {/* Logo / Site title */}
             <div className="flex-shrink-0">
-              <div className="text-white font-bold text-xl">
+              <div className="text-emerald-200 font-bold text-xl">
                 Portfólio
               </div>
             </div>
@@ -47,8 +49,8 @@ function App() {
                   onClick={() => handleLinkClick(link.id)}
                   className={`capitalize transition-colors duration-300 ${
                     activeSection === link.id
-                      ? 'text-purple-400'
-                      : 'text-white hover:text-purple-300'
+                      ? 'text-emerald-300'
+                      : 'text-white hover:text-emerald-300'
                   }`}
                 >
                   {link.name}
@@ -60,7 +62,7 @@ function App() {
             <div className="md:hidden flex items-center">
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="text-white hover:text-purple-300"
+                className="text-white hover:text-emerald-300"
                 aria-label="Abrir menu"
               >
                 {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -72,13 +74,13 @@ function App() {
 
       {/* Mobile Menu Overlay*/}
       {isMenuOpen && (
-        <div className="md:hidden fixed inset-0 bg-gray-900/95 z-40 pt-16">
+        <div className="md:hidden fixed inset-0 bg-slate-950/95 z-40 pt-16">
            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
               {navLinks.map((link) => (
                 <button
                   key={link.name}
                   onClick={() => handleLinkClick(link.id)}
-                  className="w-full text-left block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-gray-700"
+                  className="w-full text-left block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-emerald-900/40"
                 >
                   {link.name}
                 </button>
@@ -114,7 +116,7 @@ function App() {
       </main>
 
       {/* Footer */}
-      <footer className="py-8 px-6 bg-black/40 border-t border-white/10">
+      <footer className="py-8 px-6 bg-slate-950 border-t border-emerald-500/10">
         <div className="max-w-6xl mx-auto text-center">
           <p className="text-gray-400">
             &copy; 2025 Rafael Américo Franco de Azevedo. Todos os direitos reservados.

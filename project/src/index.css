@@ -101,3 +101,67 @@
     transform: translateY(0);
   }
 }
+
+@layer utilities {
+  .skills-carousel-stage {
+    position: relative;
+    width: min(100%, 1120px);
+    height: 240px;
+    perspective: 1400px;
+    transform-style: preserve-3d;
+  }
+
+  .skills-carousel-track {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transform: rotateX(12deg) rotateY(var(--carousel-rotation, 0deg));
+    transition: var(--carousel-transition, transform 700ms cubic-bezier(0.22, 1, 0.36, 1));
+    cursor: grab;
+    touch-action: pan-y;
+  }
+
+  .skills-carousel-track:active {
+    cursor: grabbing;
+  }
+
+  .skills-carousel-card {
+    position: absolute;
+    inset: 50% auto auto 50%;
+    width: 150px;
+    height: 200px;
+    margin-left: -75px;
+    margin-top: -100px;
+    transform-style: preserve-3d;
+    transform: var(--card-transform);
+    transition: transform 420ms ease, filter 220ms ease, opacity 220ms ease;
+    filter: saturate(0.95);
+    backface-visibility: hidden;
+  }
+
+  .skills-carousel-card:hover {
+    filter: saturate(1.15);
+    transform: var(--card-transform) scale(1.06);
+  }
+
+  .skills-carousel-card-glow {
+    position: absolute;
+    inset: 12px;
+    border-radius: 1.35rem;
+    opacity: 0.16;
+    filter: blur(18px);
+    pointer-events: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skills-carousel-track,
+  .skills-carousel-card {
+    animation: none !important;
+  }
+
+  .skills-carousel-track {
+    transition: none !important;
+  }
+}

@@ -1,103 +1,244 @@
-import React, { useState } from 'react';
+import React, { useLayoutEffect, useRef, useState } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 const AboutSection: React.FC = () => {
-  const fullName = "Rafael Américo Franco de Azevedo";
+  const fullName = 'Rafael Américo Franco de Azevedo';
   const [showDetailedAbout, setShowDetailedAbout] = useState(false);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const glowRef = useRef<HTMLDivElement>(null);
+  const logoRef = useRef<HTMLImageElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const introRefs = useRef<Array<HTMLElement | null>>([]);
+
+  const handleHideDetailedAbout = () => {
+    setShowDetailedAbout(false);
+  };
 
   const handleShowDetailedAbout = () => {
     setShowDetailedAbout(true);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleHideDetailedAbout = () => {
-    setShowDetailedAbout(false);
-  };
+  useLayoutEffect(() => {
+    if (showDetailedAbout) return;
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const panel = panelRef.current;
+    const glow = glowRef.current;
+    const logo = logoRef.current;
+    const content = contentRef.current;
+    const introItems = introRefs.current.filter(Boolean);
+
+    if (!panel) return;
+
+    const ctx = gsap.context(() => {
+      gsap.set(panel, { y: 24 });
+      gsap.set(glow, { scale: 0.78, y: 10 });
+      gsap.set(logo, { y: -34, scale: 0.84, rotationX: 18, transformPerspective: 900 });
+      gsap.set(content, { y: 18 });
+      gsap.set(introItems, { y: 22, filter: 'blur(6px)' });
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: panel,
+          start: 'top 85%',
+          once: true,
+        },
+      });
+
+      tl.to(panel, {
+        y: 0,
+        duration: 0.9,
+        ease: 'power3.out',
+      })
+        .to(
+          glow,
+          {
+            scale: 1,
+            y: 0,
+            duration: 1.1,
+            ease: 'power3.out',
+          },
+          '-=0.7'
+        )
+        .to(
+          logo,
+          {
+            y: 0,
+            scale: 1,
+            rotationX: 0,
+            duration: 1.15,
+            ease: 'power4.out',
+          },
+          '-=0.45'
+        )
+        .to(
+          introItems,
+          {
+            y: 0,
+            filter: 'blur(0px)',
+            duration: 0.8,
+            stagger: 0.12,
+            ease: 'power3.out',
+          },
+          '-=0.55'
+        );
+
+      if (logo) {
+        gsap.to(logo, {
+          y: -12,
+          duration: 3.2,
+          ease: 'sine.inOut',
+          yoyo: true,
+          repeat: -1,
+        });
+      }
+
+      if (glow) {
+        gsap.to(glow, {
+          y: -18,
+          scale: 1.08,
+          opacity: 0.82,
+          scrollTrigger: {
+            trigger: panel,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: true,
+          },
+        });
+      }
+
+      if (content) {
+        gsap.to(content, {
+          y: -16,
+          scrollTrigger: {
+            trigger: panel,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: true,
+          },
+        });
+      }
+
+      if (introItems.length) {
+        gsap.to(introItems, {
+          y: -10,
+          stagger: 0.03,
+          scrollTrigger: {
+            trigger: panel,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: true,
+          },
+        });
+      }
+    }, panel);
+
+    return () => ctx.revert();
+  }, [showDetailedAbout]);
 
   return (
     <>
       {!showDetailedAbout ? (
         <>
-          {/* Hero Section */}
-          <section id="about" className="relative pt-20 pb-96 sm:pb-[30rem] lg:pb-[40rem] px-4 sm:px-6 bg-[url('/IA.jpg')] bg-cover bg-center">
-          </section>
+          <section
+            id="about"
+            className="relative pt-6 pb-0 px-0 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950"
+          />
 
-          {/* About Section */}
-          <section className="py-16 px-4 sm:px-6 bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg">
-            <div className="max-w-6xl mx-auto">
-              <div className="text-center mb-12"> {/* Name section - moved back */}
-                <p className="text-2xl sm:text-3xl lg:text-4xl text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400 mb-2">Olá, Sou</p>
-                <h2 className="text-3xl sm:text-4xl lg:text-6xl font-bold text-white mb-4 h-24 lg:h-32 flex items-center justify-center"> {/* Reverted h2 classes */}
-                  <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
-                    {fullName}
-                  </span>
-                </h2>
-              </div>
+          <section className="relative px-4 sm:px-6 pb-4 -mt-2">
+            <div className="w-full max-w-6xl mx-auto">
+              <div ref={panelRef} className="relative overflow-hidden rounded-2xl bg-[#041419] border-y border-cyan-500/10 shadow-[0_0_60px_rgba(0,0,0,0.45)]">
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(34,211,238,0.10),transparent_45%),radial-gradient(circle_at_left,rgba(16,185,129,0.12),transparent_35%),linear-gradient(180deg,rgba(0,0,0,0.18),rgba(0,0,0,0.52))]" />
+                <div
+                  ref={glowRef}
+                  className="pointer-events-none absolute left-1/2 top-[18%] h-40 w-40 sm:h-64 sm:w-64 -translate-x-1/2 rounded-full bg-emerald-500/20 blur-3xl"
+                />
 
-              <div className="flex flex-col lg:flex-row items-center lg:items-start">
-                <div className="flex-shrink-0 mb-8 lg:mb-0"> {/* Image container - reverted width/padding */}
-                  <img
-                    src="/rafael.png"
-                    alt="Rafael Américo Franco de Azevedo - Foto de Perfil"
-                    className="w-full h-auto max-h-[350px] object-contain object-center mx-auto rounded-none" /* Adjusted for rectangle, changed object-cover to object-contain, reduced height */
-                  />
-                </div>
-                <div className="space-y-6 text-center lg:text-left lg:pl-8"> {/* Text container - added lg:pl-8 */}
-                  <h3 className="text-2xl font-bold text-white mb-4">
-                        <span className="block">Desenvolvedor BackEnd</span>
-                        <span className="block text-purple-400 text-lg mt-1">Focado em Performance, Segurança e Escalabilidade</span>
-                      </h3>
-                      <p className="text-gray-300 leading-relaxed text-lg">
-                        Sou um desenvolvedor com foco total em Back-End, especializando-me em Java e Spring Boot. Construí esta plataforma como uma vitrine profissional para os meus futuros projetos. Para criar a interface, utilizei IA como uma ferramenta estratégica, o que me permitiu focar no que é mais importante: construir e apresentar as soluções back-end que são a minha verdadeira paixão.
+                <div className="relative px-4 py-6 sm:px-6 sm:py-8 lg:py-10">
+                  <div className="grid items-center gap-8 lg:grid-cols-1 lg:px-0">
+                    <div ref={contentRef} className="text-center text-white">
+                      <div className="mb-5 sm:mb-6 w-full flex justify-center">
+                        <img
+                          ref={logoRef}
+                          src="/FOTOLOGO.png"
+                          alt="Rafael Tech"
+                          className="block w-full max-w-[680px] sm:max-w-[920px] lg:max-w-none h-auto object-contain drop-shadow-[0_0_40px_rgba(16,185,129,0.45)]"
+                        />
+                      </div>
+
+                      <p ref={(el) => { introRefs.current[0] = el; }} className="text-cyan-200 text-lg sm:text-2xl lg:text-3xl font-medium mb-2 tracking-[0.12em] uppercase">
+                        Olá, Sou
                       </p>
-                  
-                </div>
-              </div>
+                      <h2 ref={(el) => { introRefs.current[1] = el; }} className="text-3xl sm:text-5xl lg:text-6xl font-bold text-cyan-200 leading-tight tracking-tight drop-shadow-[0_0_32px_rgba(34,211,238,0.58)]">
+                        {fullName}
+                      </h2>
+                      <p ref={(el) => { introRefs.current[2] = el; }} className="mt-4 text-white text-lg sm:text-2xl lg:text-3xl font-semibold tracking-wide">
+                        Desenvolvedor Full Stack
+                      </p>
+                      <p ref={(el) => { introRefs.current[3] = el; }} className="mt-2 text-emerald-200 text-xs sm:text-base lg:text-lg tracking-wide">
+                        Foco em automação, IA e resultados.
+                      </p>
 
-              {/* New "Sobre Mim" trigger button */}
-              <div className="flex justify-center mt-12">
-                <button
-                  onClick={handleShowDetailedAbout}
-                  className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-300 shadow-lg text-lg"
-                >
-                  Sobre Mim
-                </button>
-              </div>
+                      <p ref={(el) => { introRefs.current[4] = el; }} className="mt-5 max-w-3xl mx-auto text-sm sm:text-lg leading-7 text-slate-200/90">
+                        Sou um profissional prático e orientado à tecnologia, com foco em criar soluções que automatizam processos e geram valor real.
+                      </p>
 
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-12">
-                <div className="text-center bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20">
-                  <div className="text-3xl font-bold text-purple-400 mb-2">9+</div>
-                  <div className="text-gray-300">Tecnologias</div>
-                </div>
-                <div className="text-center bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20">
-                  <div className="text-3xl font-bold text-purple-400 mb-2">10+</div>
-                  <div className="text-gray-300">Projetos</div>
-                </div>
-                <div className="text-center bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20">
-                  <div className="text-3xl font-bold text-purple-400 mb-2">100%</div>
-                  <div className="text-gray-300">Dedicação</div>
+                      <div className="mt-6 sm:mt-7 flex justify-center">
+                        <button
+                          ref={(el) => { introRefs.current[5] = el; }}
+                          onClick={handleShowDetailedAbout}
+                          className="rounded-md border border-cyan-400/60 bg-transparent px-5 py-3 sm:px-8 sm:py-4 text-cyan-200 transition-colors duration-300 hover:bg-cyan-400/10"
+                        >
+                          Sobre Mim - Detalhes
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </section>
         </>
-      ) : (
-        <section className="py-16 px-4 sm:px-6 bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg min-h-screen flex items-center justify-center">
-          <div className="max-w-4xl mx-auto bg-white/10 backdrop-blur-sm rounded-lg p-8 border border-white/20 relative">
-            <h3 className="text-3xl font-bold text-white mb-6 text-center">Sobre Mim - Detalhes</h3>
-            <div className="space-y-6 text-gray-300 leading-relaxed text-lg">
+          ) : (
+        <section className="py-12 px-4 sm:px-6 bg-gradient-to-br from-slate-950 via-neutral-950 to-emerald-950 rounded-lg min-h-screen flex items-center justify-center">
+          <div className="max-w-4xl mx-auto bg-black/35 backdrop-blur-sm rounded-lg p-5 sm:p-8 border border-emerald-500/15 relative">
+            <h3 className="text-2xl sm:text-3xl font-bold text-white mb-6 text-center">Sobre Mim - Detalhes</h3>
+
+            <div className="space-y-5 sm:space-y-6 text-gray-300 leading-relaxed text-base sm:text-lg">
               <p>
-                Como uma pessoa naturalmente proativa e curiosa por tecnologia, a minha jornada na área começou com uma paixão genuína pela criação e pelo aprendizado. Desde o início do meu curso de Análise e Desenvolvimento de Sistemas, percebi que o meu fascínio estava nos bastidores. Sou muito atencioso aos detalhes e focado em performance, por isso a construção da lógica, a otimização de dados e a eficiência que sustentam uma aplicação me cativaram imediatamente.
+                Como uma pessoa naturalmente proativa e curiosa por tecnologia, a minha jornada na área começou com uma paixão genuína pela criação e pelo aprendizado. Desde o início do meu curso de Análise e Desenvolvimento de Sistemas, percebi que o meu fascínio estava nos bastidores.
+              </p>
+              <p>
+                Sou muito atencioso aos detalhes e focado em performance, por isso a construção da lógica, a otimização de dados e a eficiência que sustentam uma aplicação me cativaram imediatamente.
               </p>
               <p>
                 Foi assim que o Back-End com Java se tornou o meu principal foco de estudo e carreira, pois acredito que as melhores soluções back-end são aquelas que permitem a criação de experiências de utilizador incríveis no front-end.
               </p>
             </div>
+
             <div className="flex justify-center mt-8">
               <button
                 onClick={handleHideDetailedAbout}
-                className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-300 shadow-lg flex items-center"
+                className="bg-emerald-700 hover:bg-emerald-600 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-300 shadow-lg flex items-center"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-arrow-left mr-2"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="lucide lucide-arrow-left mr-2"
+                >
+                  <path d="m12 19-7-7 7-7" />
+                  <path d="M19 12H5" />
+                </svg>
                 Voltar
               </button>
             </div>

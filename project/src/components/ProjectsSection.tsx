@@ -3,6 +3,14 @@ import { Github, Monitor } from 'lucide-react';
 
 const projects = [
   {
+    title: 'CRM Holístico',
+    description: 'Projeto de CRM focado em centralizar relacionamento com clientes, organização de processos e apoio à automação comercial.',
+    tech: ['CRM', 'Automação', 'Gestão de clientes'],
+    image: '/crm-holistico-preview.png',
+    github: 'https://github.com/RafaelFrancoD/CRM-hol-stico',
+    liveDemo: 'https://crm-holistico.vercel.app/'
+  },
+  {
     title: 'Sistema de Gerenciamento de Férias',
     description: 'Solução para simplificar a gestão de férias de equipes. Permite solicitar, aprovar e acompanhar os períodos de férias dos colaboradores, otimizar o planejamento e evitar conflitos de agendamento.',
     tech: ['React', 'TypeScript', 'Vite', 'Recharts', 'jsPDF'],
@@ -34,49 +42,39 @@ const projects = [
     github: 'https://github.com/RafaelFrancoD/cookitos-landing',
     liveDemo: 'https://cookitos-landing.vercel.app/'
   },
-  
-  {
-    title: 'Conta Bancária - DIO',
-    description: 'Projeto de simulação de conta bancária desenvolvido durante curso da DIO',
-    tech: ['Java', 'POO', 'Collections'],
-    image: 'https://images.pexels.com/photos/259200/pexels-photo-259200.jpeg?auto=compress&cs=tinysrgb&w=800',
-    github: 'https://github.com/RafaelFrancoD/Testando-Conta-bancaria-DIO.ME',
-    liveDemo: null
-  },
-  
 ];
 
 const ProjectsSection: React.FC = () => {
   return (
-    <section id="projects" className="py-16 px-4 sm:px-6 bg-gradient-to-br from-black to-blue-900 rounded-lg">
+    <section id="projects" className="py-12 sm:py-16 px-4 sm:px-6 bg-gradient-to-br from-slate-950 via-neutral-950 to-emerald-950 rounded-lg">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Projetos em Destaque</h2>
-          <p className="text-lg md:text-xl text-gray-300">Alguns dos meus trabalhos recentes</p>
+        <div className="text-center mb-10 sm:mb-12" data-gsap-item>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-emerald-200 mb-3 sm:mb-4">Projetos em Destaque</h2>
+          <p className="text-base sm:text-lg md:text-xl text-gray-300">Alguns dos meus trabalhos recentes</p>
         </div>
 
-        <h3 className="text-2xl font-bold text-white mb-6 text-center">Secção 1: Projetos Web Completos (Ponta-a-Ponta)</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
+        <h3 className="text-xl sm:text-2xl font-bold text-emerald-100 mb-5 sm:mb-6 text-center" data-gsap-item>Secção 1: Projetos Web Completos (Ponta-a-Ponta)</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-8 items-stretch">
           {projects.map((project, index) => (
-            <div key={index} className="bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20 flex flex-col justify-between hover:border-purple-400/50 transition-all duration-300 hover:transform hover:scale-105 shadow-lg shadow-purple-500/25">
+            <div key={index} data-gsap-item className="bg-black/30 backdrop-blur-sm rounded-lg p-4 sm:p-6 border border-emerald-500/15 flex flex-col justify-between hover:border-emerald-400/50 transition-all duration-300 hover:transform hover:scale-105 shadow-lg shadow-black/40">
               <div>
-                <img src={project.image} alt={project.title} className="w-full h-48 object-contain object-center rounded-md mb-4" />
-                <h3 className="text-2xl font-bold text-white mb-2">{project.title}</h3>
-                <p className="text-gray-300 mb-4">{project.description}</p>
+                <img src={project.image} alt={project.title} className="w-full h-40 sm:h-48 object-contain object-center rounded-md mb-4" />
+                <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">{project.title}</h3>
+                <p className="text-sm sm:text-base text-gray-300 mb-4">{project.description}</p>
                 <div className="flex flex-wrap gap-2 mb-4">
                   {project.tech.map((tech, techIndex) => (
-                    <span key={techIndex} className="bg-purple-600/30 text-purple-300 text-sm px-3 py-1 rounded-full">
+                    <span key={techIndex} className="bg-emerald-700/25 text-emerald-200 text-xs sm:text-sm px-3 py-1 rounded-full">
                       {tech}
                     </span>
                   ))}
                 </div>
               </div>
-              <div className="flex gap-4 mt-4">
+              <div className="flex gap-3 sm:gap-4 mt-4">
                 <a
                   href={project.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex-1 bg-gray-700 text-white px-4 py-2 rounded-full font-semibold hover:bg-gray-600 transition-colors duration-300 flex items-center justify-center gap-2"
+                  className="flex-1 bg-slate-800 text-white px-3 sm:px-4 py-2 rounded-full font-semibold hover:bg-emerald-900 transition-colors duration-300 flex items-center justify-center gap-2 text-sm sm:text-base"
                 >
                   <Github size={18} /> GitHub
                 </a>
@@ -85,7 +83,7 @@ const ProjectsSection: React.FC = () => {
                     href={project.liveDemo}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 bg-gray-700 text-white px-4 py-2 rounded-full font-semibold hover:bg-gray-600 transition-colors duration-300 flex items-center justify-center gap-2"
+                    className="flex-1 bg-slate-800 text-white px-3 sm:px-4 py-2 rounded-full font-semibold hover:bg-emerald-900 transition-colors duration-300 flex items-center justify-center gap-2 text-sm sm:text-base"
                   >
                     <Monitor size={18} /> Demo
                   </a>

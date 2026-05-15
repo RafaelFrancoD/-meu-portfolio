@@ -1,4 +1,6 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useLayoutEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 interface AnimatedSectionProps {
   children: React.ReactNode;
@@ -7,42 +9,52 @@ interface AnimatedSectionProps {
 
 const AnimatedSection: React.FC<AnimatedSectionProps> = ({ children, delay = 0 }) => {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.unobserve(entry.target);
-        }
-      },
-      {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.1,
-      }
-    );
+  useLayoutEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
 
-    const currentRef = sectionRef.current;
-    if (currentRef) {
-      observer.observe(currentRef);
-    }
+    const element = sectionRef.current;
+    if (!element) return;
 
-    return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef);
-      }
-    };
-  }, []);
+    const items = element.querySelectorAll('[data-gsap-item]');
+
+    const ctx = gsap.context(() => {
+      gsap.set(element, { autoAlpha: 0, y: 40 });
+      gsap.set(items, { autoAlpha: 0, y: 24 });
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: element,
+          start: 'top 82%',
+          once: true,
+        },
+        delay: delay / 1000,
+      });
+
+      tl.to(element, {
+        autoAlpha: 1,
+        y: 0,
+        duration: 0.9,
+        ease: 'power3.out',
+      }).to(
+        items,
+        {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.7,
+          stagger: 0.12,
+          ease: 'power2.out',
+        },
+        '-=0.45'
+      );
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, [delay]);
 
   return (
-    <div
-      ref={sectionRef}
-      className={`transition-all duration-700 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
-      style={{ transitionDelay: `${delay}ms` }}
-    >
-      {isVisible && children}
+    <div ref={sectionRef} className="will-change-transform">
+      {children}
     </div>
   );
 };
