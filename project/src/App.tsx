@@ -5,6 +5,7 @@ import AnimatedSection from './components/common/AnimatedSection';
 import { Menu, X } from 'lucide-react';
 
 const AboutSection = lazy(() => import('./components/AboutSection'));
+const ProblemsSection = lazy(() => import('./components/ProblemsSection'));
 const SkillsSection = lazy(() => import('./components/SkillsSection'));
 const ProjectsSection = lazy(() => import('./components/ProjectsSection'));
 const ContactSection = lazy(() => import('./components/ContactSection'));
@@ -23,6 +24,7 @@ function App() {
   const navLinks = [
     { id: 'about', name: 'Início' },
     { id: 'about', name: 'Sobre mim' },
+    { id: 'problems', name: 'Problemas' },
     { id: 'skills', name: 'Habilidades' },
     { id: 'projects', name: 'Projetos' },
     { id: 'contact', name: 'Contato' },
@@ -94,9 +96,16 @@ function App() {
 
       <main className="flex flex-col items-center gap-16 py-16">
         {/* Skills Section */}
-        <AnimatedSection delay={100}>
+        <AnimatedSection delay={50}>
           <Suspense fallback={<div>Loading Skills...</div>}>
             <SkillsSection />
+          </Suspense>
+        </AnimatedSection>
+
+        {/* Problems Section */}
+        <AnimatedSection delay={100}>
+          <Suspense fallback={<div>Loading Problems...</div>}>
+            <ProblemsSection />
           </Suspense>
         </AnimatedSection>
 

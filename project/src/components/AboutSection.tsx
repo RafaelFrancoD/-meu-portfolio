@@ -7,8 +7,9 @@ const AboutSection: React.FC = () => {
   const [showDetailedAbout, setShowDetailedAbout] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
   const glowRef = useRef<HTMLDivElement>(null);
-  const logoRef = useRef<HTMLImageElement>(null);
+  const logoRef = useRef<HTMLVideoElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const introBlockRef = useRef<HTMLDivElement>(null);
   const introRefs = useRef<Array<HTMLElement | null>>([]);
 
   const handleHideDetailedAbout = () => {
@@ -29,6 +30,7 @@ const AboutSection: React.FC = () => {
     const glow = glowRef.current;
     const logo = logoRef.current;
     const content = contentRef.current;
+    const introBlock = introBlockRef.current;
     const introItems = introRefs.current.filter(Boolean);
 
     if (!panel) return;
@@ -36,9 +38,10 @@ const AboutSection: React.FC = () => {
     const ctx = gsap.context(() => {
       gsap.set(panel, { y: 24 });
       gsap.set(glow, { scale: 0.78, y: 10 });
-      gsap.set(logo, { y: -34, scale: 0.84, rotationX: 18, transformPerspective: 900 });
+      gsap.set(logo, { scale: 0.84 });
+      gsap.set(introBlock, { y: 0 });
       gsap.set(content, { y: 18 });
-      gsap.set(introItems, { y: 22, filter: 'blur(6px)' });
+      gsap.set(introItems, { y: 24, autoAlpha: 0 });
 
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -66,9 +69,7 @@ const AboutSection: React.FC = () => {
         .to(
           logo,
           {
-            y: 0,
             scale: 1,
-            rotationX: 0,
             duration: 1.15,
             ease: 'power4.out',
           },
@@ -78,23 +79,14 @@ const AboutSection: React.FC = () => {
           introItems,
           {
             y: 0,
-            filter: 'blur(0px)',
+            autoAlpha: 1,
             duration: 0.8,
-            stagger: 0.12,
+            stagger: 0.1,
             ease: 'power3.out',
           },
           '-=0.55'
         );
 
-      if (logo) {
-        gsap.to(logo, {
-          y: -12,
-          duration: 3.2,
-          ease: 'sine.inOut',
-          yoyo: true,
-          repeat: -1,
-        });
-      }
 
       if (glow) {
         gsap.to(glow, {
@@ -122,16 +114,30 @@ const AboutSection: React.FC = () => {
         });
       }
 
-      if (introItems.length) {
-        gsap.to(introItems, {
-          y: -10,
-          stagger: 0.03,
+      if (introBlock) {
+        gsap.to(introBlock, {
+          y: -14,
           scrollTrigger: {
             trigger: panel,
             start: 'top bottom',
             end: 'bottom top',
-            scrub: true,
+            scrub: 0.8,
           },
+        });
+      }
+
+      if (introItems.length) {
+        introItems.forEach((item, index) => {
+          gsap.to(item, {
+            y: -8 - index * 2,
+            autoAlpha: 1,
+            scrollTrigger: {
+              trigger: panel,
+              start: 'top 85%',
+              end: 'bottom top',
+              scrub: 0.9,
+            },
+          });
         });
       }
     }, panel);
@@ -148,8 +154,8 @@ const AboutSection: React.FC = () => {
             className="relative pt-6 pb-0 px-0 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950"
           />
 
-          <section className="relative px-4 sm:px-6 pb-4 -mt-2">
-            <div className="w-full max-w-6xl mx-auto">
+          <section className="relative px-4 sm:px-6 pb-4 pt-20 sm:pt-0 -mt-2">
+            <div className="w-full mx-auto">
               <div ref={panelRef} className="relative overflow-hidden rounded-2xl bg-[#041419] border-y border-cyan-500/10 shadow-[0_0_60px_rgba(0,0,0,0.45)]">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(34,211,238,0.10),transparent_45%),radial-gradient(circle_at_left,rgba(16,185,129,0.12),transparent_35%),linear-gradient(180deg,rgba(0,0,0,0.18),rgba(0,0,0,0.52))]" />
                 <div
@@ -161,39 +167,44 @@ const AboutSection: React.FC = () => {
                   <div className="grid items-center gap-8 lg:grid-cols-1 lg:px-0">
                     <div ref={contentRef} className="text-center text-white">
                       <div className="mb-5 sm:mb-6 w-full flex justify-center">
-                        <img
+                        <video
                           ref={logoRef}
-                          src="/FOTOLOGO.png"
-                          alt="Rafael Tech"
-                          className="block w-full max-w-[680px] sm:max-w-[920px] lg:max-w-none h-auto object-contain drop-shadow-[0_0_40px_rgba(16,185,129,0.45)]"
+                          src="/video-logo.mp4"
+                          autoPlay
+                          loop
+                          muted
+                          playsInline
+                          className="block w-full h-auto object-contain drop-shadow-[0_0_40px_rgba(16,185,129,0.45)] rounded-lg"
                         />
                       </div>
 
-                      <p ref={(el) => { introRefs.current[0] = el; }} className="text-cyan-200 text-lg sm:text-2xl lg:text-3xl font-medium mb-2 tracking-[0.12em] uppercase">
-                        Olá, Sou
-                      </p>
-                      <h2 ref={(el) => { introRefs.current[1] = el; }} className="text-3xl sm:text-5xl lg:text-6xl font-bold text-cyan-200 leading-tight tracking-tight drop-shadow-[0_0_32px_rgba(34,211,238,0.58)]">
-                        {fullName}
-                      </h2>
-                      <p ref={(el) => { introRefs.current[2] = el; }} className="mt-4 text-white text-lg sm:text-2xl lg:text-3xl font-semibold tracking-wide">
-                        Desenvolvedor Full Stack
-                      </p>
-                      <p ref={(el) => { introRefs.current[3] = el; }} className="mt-2 text-emerald-200 text-xs sm:text-base lg:text-lg tracking-wide">
-                        Foco em automação, IA e resultados.
-                      </p>
+                      <div ref={introBlockRef} className="space-y-1 sm:space-y-2">
+                        <p ref={(el) => { introRefs.current[0] = el; }} className="text-cyan-200 text-lg sm:text-2xl lg:text-3xl font-medium mb-2 tracking-[0.12em] uppercase">
+                          Olá, Sou
+                        </p>
+                        <h2 ref={(el) => { introRefs.current[1] = el; }} className="text-3xl sm:text-5xl lg:text-6xl font-bold text-cyan-200 leading-tight tracking-tight drop-shadow-[0_0_32px_rgba(34,211,238,0.58)]">
+                          {fullName}
+                        </h2>
+                        <p ref={(el) => { introRefs.current[2] = el; }} className="mt-4 text-white text-lg sm:text-2xl lg:text-3xl font-semibold tracking-wide">
+                          Desenvolvedor Full Stack
+                        </p>
+                        <p ref={(el) => { introRefs.current[3] = el; }} className="mt-2 text-emerald-200 text-xs sm:text-base lg:text-lg tracking-wide">
+                          Foco em automação, IA e resultados.
+                        </p>
 
-                      <p ref={(el) => { introRefs.current[4] = el; }} className="mt-5 max-w-3xl mx-auto text-sm sm:text-lg leading-7 text-slate-200/90">
-                        Sou um profissional prático e orientado à tecnologia, com foco em criar soluções que automatizam processos e geram valor real.
-                      </p>
+                        <p ref={(el) => { introRefs.current[4] = el; }} className="mt-5 max-w-3xl mx-auto text-sm sm:text-lg leading-7 text-slate-200/90">
+                          Sou um profissional prático e orientado à tecnologia, com foco em criar soluções que automatizam processos e geram valor real.
+                        </p>
 
-                      <div className="mt-6 sm:mt-7 flex justify-center">
-                        <button
-                          ref={(el) => { introRefs.current[5] = el; }}
-                          onClick={handleShowDetailedAbout}
-                          className="rounded-md border border-cyan-400/60 bg-transparent px-5 py-3 sm:px-8 sm:py-4 text-cyan-200 transition-colors duration-300 hover:bg-cyan-400/10"
-                        >
-                          Sobre Mim - Detalhes
-                        </button>
+                        <div className="mt-6 sm:mt-7 flex justify-center">
+                          <button
+                            ref={(el) => { introRefs.current[5] = el; }}
+                            onClick={handleShowDetailedAbout}
+                            className="rounded-md border border-cyan-400/60 bg-transparent px-5 py-3 sm:px-8 sm:py-4 text-cyan-200 transition-colors duration-300 hover:bg-cyan-400/10"
+                          >
+                            Sobre Mim - Detalhes
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -209,13 +220,16 @@ const AboutSection: React.FC = () => {
 
             <div className="space-y-5 sm:space-y-6 text-gray-300 leading-relaxed text-base sm:text-lg">
               <p>
-                Como uma pessoa naturalmente proativa e curiosa por tecnologia, a minha jornada na área começou com uma paixão genuína pela criação e pelo aprendizado. Desde o início do meu curso de Análise e Desenvolvimento de Sistemas, percebi que o meu fascínio estava nos bastidores.
+                Sou desenvolvedor Full Stack com foco em Inteligência Artificial, automações e desenvolvimento moderno orientado a IA (Vibe Coding).
               </p>
               <p>
-                Sou muito atencioso aos detalhes e focado em performance, por isso a construção da lógica, a otimização de dados e a eficiência que sustentam uma aplicação me cativaram imediatamente.
+                Atuo criando soluções inteligentes utilizando ferramentas como n8n, agentes de IA e Typebot, conectando diferentes tecnologias para automatizar processos, otimizar operações e gerar resultados reais.
               </p>
               <p>
-                Foi assim que o Back-End com Java se tornou o meu principal foco de estudo e carreira, pois acredito que as melhores soluções back-end são aquelas que permitem a criação de experiências de utilizador incríveis no front-end.
+                Meu foco vai além da escrita de código: trabalho com arquitetura de automações, engenharia de prompts e estruturação de fluxos inteligentes para tornar sistemas mais eficientes, precisos e escaláveis.
+              </p>
+              <p>
+                Utilizo IA como aliada no processo de criação, validação e otimização de soluções, acelerando desenvolvimento, reduzindo falhas e aumentando produtividade.
               </p>
             </div>
 
