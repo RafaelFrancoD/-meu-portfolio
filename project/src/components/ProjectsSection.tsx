@@ -7,11 +7,17 @@ interface Project {
   tech: string[];
   image: string;
   imagePosition?: string;
-  github: string;
+  github?: string;
   liveDemo?: string;
 }
 
 const projects: Project[] = [
+  {
+    title: 'F7 Telecom CRM',
+    description: 'CRM completo para operadora de telecom, em produção real: gestão de clientes (PF/PJ), funil de vendas, ordens de serviço, faturamento e financeiro. Backend próprio com autenticação MFA, RBAC por papel, dados sensíveis cifrados e infraestrutura endurecida (firewall em camadas, HTTPS, backups automáticos cifrados off-site). Projeto confidencial de cliente — código-fonte e ambiente não divulgados.',
+    tech: ['React', 'TypeScript', 'Node.js', 'Express', 'PostgreSQL', 'Nginx', 'Segurança/DevOps'],
+    image: '/f7-telecom-logo.jpeg',
+  },
   {
     title: 'CRM Holístico',
     description: 'Projeto de CRM focado em centralizar relacionamento com clientes, organização de processos e apoio à automação comercial.',
@@ -110,14 +116,21 @@ const ProjectsSection: React.FC = () => {
                 </div>
               </div>
               <div className="flex gap-3 mt-4">
-                <a
-                  href={project.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-1 bg-slate-800 text-white px-4 py-3 rounded-full font-semibold hover:bg-emerald-900 transition-colors flex items-center justify-center gap-2 text-sm lg:text-base"
-                >
-                  <Github size={20} /> GitHub
-                </a>
+                {project.github && (
+                  <a
+                    href={project.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 bg-slate-800 text-white px-4 py-3 rounded-full font-semibold hover:bg-emerald-900 transition-colors flex items-center justify-center gap-2 text-sm lg:text-base"
+                  >
+                    <Github size={20} /> GitHub
+                  </a>
+                )}
+                {!project.github && !project.liveDemo && (
+                  <span className="flex-1 bg-slate-800/50 text-gray-400 px-4 py-3 rounded-full font-semibold flex items-center justify-center gap-2 text-sm lg:text-base border border-slate-700">
+                    Projeto confidencial
+                  </span>
+                )}
                 {project.liveDemo && (
                   <a
                     href={project.liveDemo}
