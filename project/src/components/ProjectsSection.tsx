@@ -7,6 +7,7 @@ interface Project {
   tech: string[];
   image: string;
   imagePosition?: string;
+  imageFit?: 'cover' | 'contain';
   github?: string;
   liveDemo?: string;
 }
@@ -17,6 +18,7 @@ const projects: Project[] = [
     description: 'CRM completo para operadora de telecom, em produção real: gestão de clientes (PF/PJ), funil de vendas, ordens de serviço, faturamento e financeiro. Backend próprio com autenticação MFA, RBAC por papel, dados sensíveis cifrados e infraestrutura endurecida (firewall em camadas, HTTPS, backups automáticos cifrados off-site). Projeto confidencial de cliente — código-fonte e ambiente não divulgados.',
     tech: ['React', 'TypeScript', 'Node.js', 'Express', 'PostgreSQL', 'Nginx', 'Segurança/DevOps'],
     image: '/f7-telecom-logo.jpeg',
+    imageFit: 'contain',
   },
   {
     title: 'CRM Holístico',
@@ -102,7 +104,7 @@ const ProjectsSection: React.FC = () => {
                 <img
                   src={project.image}
                   alt={project.title}
-                  className="w-full h-64 lg:h-72 object-cover object-center rounded-md mb-4"
+                  className={`w-full h-64 lg:h-72 ${project.imageFit === 'contain' ? 'object-contain bg-white' : 'object-cover'} object-center rounded-md mb-4`}
                   style={project.imagePosition ? { objectPosition: project.imagePosition } : undefined}
                 />
                 <h3 className="text-xl lg:text-2xl font-bold text-white mb-2">{project.title}</h3>
