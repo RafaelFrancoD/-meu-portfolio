@@ -11,7 +11,7 @@ Ordem de leitura. Quando dois documentos divergem, **vale o de número maior**.
 | 5 | `F7_AGENTE_IA_CUSTO_E_MODELOS.md` | Custo em reais, Haiku × Sonnet, seleção automática e manual |
 | 6 | `F7_AGENTE_IA_PAINEL_ADMIN_CREDITOS.md` | Painel do ADMIN: gasto por colaborador em tempo real, saldo, compra de créditos, alertas |
 
-Os documentos 1 e 2 vieram como anexo e ainda **não estão neste repositório**.
+Os documentos 1 e 2 estão como foram recebidos. Trechos já superados por documentos posteriores estão listados na seção "O que muda" de cada documento novo (ex.: MFA já decidido; acesso só para quem o ADMIN liberar; máximo de rodadas por classe).
 
 ## Decisões já tomadas
 
@@ -45,6 +45,20 @@ Os documentos 1 e 2 vieram como anexo e ainda **não estão neste repositório**
 | Critérios dos alertas, ordens salvas, prazo de desfazer, áudio | Doc 4 §12 |
 | Papéis do seletor, cota do Avançado, CPU do VPS | Doc 5 §15 |
 | Conta Anthropic no nome do cliente, limite por colaborador, reserva, conferência diária | Doc 6 §13 |
+
+## Ainda não especificado
+
+| Tema | Por que importa |
+|---|---|
+| Versão consolidada (v3) num documento só | Hoje a regra final está espalhada em 6 documentos com tabelas de "o que muda" |
+| Tela no celular | Pergunta aberta no Doc 2 §12. Define layout do chat, gravação de áudio e cards |
+| Aviso aos colaboradores (LGPD) | Conversas são gravadas e enviadas a provedor externo. Precisa de aviso e base legal |
+| Contrato de dados (DPA) com a Anthropic e com o provedor de áudio | Exigência da LGPD para dado pessoal de clientes |
+| Job de retenção | Prazos existem (Doc 1 §3.3), mas falta o job que apaga |
+| Deploy do módulo | Ordem das migrações (CRM e `f7_agent`), ambiente de teste, liga/desliga por `AGENT_ENABLED`, rollback |
+| Golden set | Quem escreve os 200 casos de teste e com quais dados anonimizados |
+| Manual do colaborador | Uma página: o que o agente faz, exemplos, como confirmar e desfazer |
+| Aviso ao ADMIN fora do CRM | Alertas só aparecem no CRM. Se o ADMIN não entrar, não vê. A recarga automática cobre a falta de saldo |
 
 ## Ainda não verificado
 - Código real do repositório `f7-telecom-crm` (rotas, limitador, campos livres, `updated_at`).
