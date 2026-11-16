@@ -5,6 +5,7 @@ Onde divergir dos anteriores, **vale este** (lista no §11).
 
 Decisões do Rafa registradas aqui:
 - **Só o ADMIN_GERAL** vê gastos e controla o uso do agente.
+- **O ADMIN escolhe quem usa o agente** (ex.: 3 de 5 funcionários). Padrão: sem acesso.
 - Aba própria no login do ADMIN: gasto por colaborador, **em tempo real**.
 - **Botão para comprar créditos** na hora, com o cartão do dono.
 - **Controle do saldo** para não ser pego de surpresa: alerta e previsão de quando acaba.
@@ -247,6 +248,52 @@ Cotação automática por serviço externo: fora do MVP (o servidor precisaria d
 
 Os limites são checados **antes** de cada chamada ao modelo (`engine/budget.ts`), com o gasto acumulado em `usage_daily`.
 
+### 7.1 Quem pode usar o agente (acesso por colaborador)
+
+O ADMIN escolhe **quem usa** o agente. Exemplo: 5 funcionários no CRM, só 3 com acesso ao agente.
+
+```
+┌─ Acesso ao Agente IA ─────────────────────── 3 de 5 com acesso ─┐
+│ Colaborador   Papel            Acesso       Até          Ação   │
+│ Ana           VENDEDOR         ● Liberado   —            [ ⏻ ]  │
+│ Bruno         TECNICO          ○ Sem acesso —            [ ⏻ ]  │
+│ Carla         FINANCEIRO       ● Liberado   —            [ ⏻ ]  │
+│ Diego         VENDEDOR         ● Liberado   30/11/2026   [ ⏻ ]  │
+│ Elisa         GERENTE_VENDAS   ○ Sem acesso —            [ ⏻ ]  │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+| Regra | Detalhe |
+|---|---|
+| Padrão | **Sem acesso.** Ninguém usa o agente até o ADMIN liberar |
+| ADMIN_GERAL | Sempre tem acesso. Não pode ser desligado |
+| Usuário novo no CRM | Entra sem acesso. Alerta informativo ao ADMIN: "Novo usuário sem acesso ao agente" |
+| Acesso temporário | Opcional: data final. Depois dela, volta a "sem acesso" sozinho |
+| Mudança | Exige MFA. Vai para o `audit_log` com quem mudou e quando |
+| Efeito no CRM | **Nenhum.** O colaborador continua usando o CRM normalmente. Só o agente some |
+| Custo | Colaborador sem acesso não gasta nada |
+| Diferença de "Bloquear" (§7) | Acesso = quem pode usar. Bloquear = suspensão temporária de quem já tem acesso (ex.: abuso). Os dois existem |
+
+**O que o colaborador sem acesso vê:**
+- O item "Assistente" e o botão flutuante **não aparecem** na tela.
+- Se tentar a rota direto: `403` com "Você não tem acesso ao assistente. Fale com o administrador."
+
+**Ao retirar o acesso de quem está usando:**
+
+| Item | O que acontece |
+|---|---|
+| Mensagem em andamento | Termina. As próximas são recusadas |
+| Prévias pendentes | Canceladas na hora (`cancelled`) |
+| Lote em andamento | O ADMIN escolhe na confirmação: **cancelar o restante** (padrão) ou deixar terminar. Linhas já feitas continuam, com desfazer disponível ao ADMIN |
+| Token de lote (Robustez C2) | Revogado, se o lote for cancelado |
+| Conversas e histórico | Mantidos. Voltam a aparecer se o acesso for liberado de novo |
+| Ordens salvas | Mantidas, inativas |
+
+**Checagem no servidor (não só na tela):**
+- Middleware `requireAgentAccess` em **todas** as rotas `/api/agent/*`, exceto `/api/agent/admin/*` (que exige ADMIN) e `/api/agent/me/access`.
+- Ordem: sessão → MFA concluído → acesso ao agente → bloqueio → limites → papel/skills.
+- Cache de 30 s por usuário. Retirada de acesso limpa o cache na hora.
+
 ---
 
 ## 8. Alertas
@@ -316,6 +363,16 @@ CREATE TABLE user_limits (
   changed_by integer, changed_at timestamptz NOT NULL DEFAULT now()
 );
 
+CREATE TABLE agent_access (                    -- quem pode usar o agente (§7.1)
+  crm_user_id  integer PRIMARY KEY,
+  enabled      boolean NOT NULL DEFAULT false,
+  until        date,                            -- null = sem prazo
+  note         text,
+  changed_by   integer NOT NULL,
+  changed_at   timestamptz NOT NULL DEFAULT now()
+);
+-- usuário sem linha = sem acesso (exceto ADMIN_GERAL)
+
 CREATE TABLE billing_settings (
   key   text PRIMARY KEY,   -- 'brl_rate','iof_pct','global_daily_limit_usd','reserve_usd',
                             -- 'console_monthly_limit_usd','auto_reload_threshold_usd','auto_reload_amount_usd'
@@ -358,10 +415,13 @@ CREATE INDEX IF NOT EXISTS agent_runs_user_day ON agent_runs (crm_user_id, creat
 | `GET /api/agent/admin/billing/stream` | SSE em tempo real |
 | `POST /api/agent/admin/billing/ledger` | Informar saldo, compra, recarga (MFA) |
 | `PUT /api/agent/admin/billing/limits/:userId` | Limites e bloqueio (MFA) |
+| `GET /api/agent/admin/access` | Lista de colaboradores com situação de acesso |
+| `PUT /api/agent/admin/access/:userId` | Liberar ou retirar acesso, prazo, destino do lote em andamento (MFA) |
 | `PUT /api/agent/admin/billing/settings` | Cotação, IOF, limites globais, reserva (MFA) |
 | `GET /api/agent/admin/billing/export.xlsx` | Exportação |
 | `GET /api/agent/admin/alerts` · `POST /api/agent/admin/alerts/:id/read` | Alertas |
 | `GET /api/agent/me/usage` | **Colaborador:** só o próprio uso do dia, sem valores |
+| `GET /api/agent/me/access` | **Colaborador:** tem acesso? A tela usa para mostrar ou esconder o assistente |
 
 ### 10.3 Código
 
@@ -375,12 +435,17 @@ server/src/agent/
     reconcile.ts       # conferência diária (§4.3) — opcional, precisa da chave de admin
     alerts.ts          # regras do §8
     creditError.ts     # detecta erro de crédito da API → modo limitado + alerta
+  access/
+    requireAgentAccess.ts  # middleware (§7.1)
+    revoke.ts              # cancela prévias, decide lote, revoga token, limpa cache
+    expire.ts              # job diário: acesso com prazo vencido → sem acesso
   routes/admin/billing.ts
 components/
   admin/AgentBillingTab.tsx      # a aba
   admin/AgentBalanceCard.tsx     # topo (§3.1)
   admin/AgentUsersTable.tsx      # §3.2
   admin/AgentAlertsBell.tsx      # §8
+  admin/AgentAccessTable.tsx     # §7.1
 ```
 
 Jobs (laço no próprio servidor, como o worker de lote):
@@ -402,6 +467,8 @@ BILLING_ALERT_CHECK_MIN=5
 
 | Documento | Trecho | Mudança |
 |---|---|---|
+| Um agente (topo) | "Todos os colaboradores usarão o agente" | Substituído: **só quem o ADMIN liberar** (§7.1). Padrão sem acesso |
+| v2 §1 / §10 | `requireAuth` nas rotas do agente | Soma `requireAgentAccess` (§7.1) |
 | v2 §10 | `GET /admin/runs` · `GET /admin/audit` | Soma as rotas do §10.2 |
 | v2 §13 | Custo: alerta em 80 % | Alertas do §8 |
 | Robustez O1 | Modo degradado | Também ao esgotar crédito (§8.1) |
@@ -428,6 +495,14 @@ BILLING_ALERT_CHECK_MIN=5
 | Conferência com 10 % de diferença | Alerta amarelo |
 | Saldo informado + compra + gasto | Saldo estimado correto |
 | Tentar alterar `credit_ledger` | Banco recusa |
+| Usuário sem acesso abre o CRM | Assistente não aparece |
+| Usuário sem acesso chama `/api/agent/*` direto | `403` |
+| ADMIN retira acesso com prévia pendente | Prévia cancelada; confirmar devolve erro |
+| ADMIN retira acesso com lote rodando (padrão) | Restante cancelado; feitas mantidas |
+| Acesso com prazo vencido | Sem acesso no dia seguinte, sem ação manual |
+| Tentar retirar acesso do ADMIN_GERAL | Recusado |
+| Usuário novo criado no CRM | Sem acesso + alerta ao ADMIN |
+| Liberar acesso sem MFA | Recusado |
 
 ---
 

@@ -19,7 +19,7 @@ Os documentos 1 e 2 vieram como anexo e ainda **não estão neste repositório**
 |---|---|
 | Canal | Só dentro do CRM. Sem WhatsApp, sem n8n |
 | Banco | `f7_agent` separado do CRM |
-| Usuários | Todos os colaboradores, cada um com as permissões do seu papel |
+| Usuários | Só quem o ADMIN liberar (padrão: sem acesso). Cada um com as permissões do seu papel |
 | MFA | Obrigatório para todos. Exigido nas ações R3 |
 | Estrutura | Um agente, várias skills, roteador |
 | Tokens | Economia obrigatória (Regras Globais) |
